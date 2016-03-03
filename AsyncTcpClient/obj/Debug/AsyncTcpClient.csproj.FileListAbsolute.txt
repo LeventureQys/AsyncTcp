@@ -1,0 +1,5 @@
+G:\CAwait\AsyncTcp\AsyncTcpClient\bin\Debug\AsyncTcpClient.dll
+G:\CAwait\AsyncTcp\AsyncTcpClient\bin\Debug\AsyncTcpClient.pdb
+G:\CAwait\AsyncTcp\AsyncTcpClient\obj\Debug\AsyncTcpClient.dll
+G:\CAwait\AsyncTcp\AsyncTcpClient\obj\Debug\AsyncTcpClient.pdb
+G:\CAwait\AsyncTcp\AsyncTcpClient\obj\Debug\AsyncTcpClient.csprojResolveAssemblyReference.cache

@@ -1,0 +1,8 @@
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\bin\Debug\AsyncTcpSeverTest.exe.config
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\bin\Debug\AsyncTcpSeverTest.exe
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\bin\Debug\AsyncTcpSeverTest.pdb
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\bin\Debug\AsyncTcpSever.dll
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\bin\Debug\AsyncTcpSever.pdb
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\obj\Debug\AsyncTcpSeverTest.csprojResolveAssemblyReference.cache
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\obj\Debug\AsyncTcpSeverTest.exe
+G:\CAwait\AsyncTcp\AsyncTcpSeverTest\obj\Debug\AsyncTcpSeverTest.pdb

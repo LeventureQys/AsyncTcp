@@ -1,0 +1,5 @@
+G:\CAwait\AsyncTcp\AsyncTcpSever\bin\Debug\AsyncTcpSever.dll
+G:\CAwait\AsyncTcp\AsyncTcpSever\bin\Debug\AsyncTcpSever.pdb
+G:\CAwait\AsyncTcp\AsyncTcpSever\obj\Debug\AsyncTcpSever.dll
+G:\CAwait\AsyncTcp\AsyncTcpSever\obj\Debug\AsyncTcpSever.pdb
+G:\CAwait\AsyncTcp\AsyncTcpSever\obj\Debug\AsyncTcpSever.csprojResolveAssemblyReference.cache

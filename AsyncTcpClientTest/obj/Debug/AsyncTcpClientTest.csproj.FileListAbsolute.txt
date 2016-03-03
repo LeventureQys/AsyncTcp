@@ -1,0 +1,8 @@
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\bin\Debug\AsyncTcpClientTest.exe.config
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\bin\Debug\AsyncTcpClientTest.exe
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\bin\Debug\AsyncTcpClientTest.pdb
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\bin\Debug\AsyncTcpClient.dll
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\bin\Debug\AsyncTcpClient.pdb
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\obj\Debug\AsyncTcpClientTest.csprojResolveAssemblyReference.cache
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\obj\Debug\AsyncTcpClientTest.exe
+G:\CAwait\AsyncTcp\AsyncTcpClientTest\obj\Debug\AsyncTcpClientTest.pdb
