@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,8 +56,14 @@ namespace AsyncTcpSever
 
         public event Action<Socket> ConnectedEvent;
 
-        public event Action<Socket, byte[]> ReceiveEvent; 
+        public event Action<Socket, byte[]> ReceiveEvent;
 
+        public Dictionary<String, Socket> clients;
+        /// <summary>
+        /// 默认ip和端口号
+        /// </summary>
+        private String ip = "127.0.0.1";
+        private Int16 port = 1145;
         #endregion
 
         #region 初始化信息
@@ -69,7 +76,7 @@ namespace AsyncTcpSever
             this.socketSetting = socketSetting;
             this.prefixHandler = new PrefixHandler();
             this.messageHandler = new MessageHandler();
-            this.outgoingDataPreparer=new OutgoingDataPreparer();
+            this.outgoingDataPreparer = new OutgoingDataPreparer();
 
             this.buffer = new BufferManager(
                 socketSetting.BufferSize * socketSetting.NumberOfSaeaForRec * socketSetting.NumberOfSaeaForSend,
@@ -109,7 +116,7 @@ namespace AsyncTcpSever
 
 
         /// <summary>
-        /// 开始监听
+        /// 开始监听，本地ip和随机端口
         /// </summary>
         private void StartListen()
         {
@@ -120,8 +127,22 @@ namespace AsyncTcpSever
             listenSocket.Listen(this.socketSetting.Bakclog);
             StartAccept();
         }
+        /// <summary>
+        /// 输入ip和端口号，用于监听指定端口
+        /// </summary>
+        /// <param name="ipAddress">ip</param>
+        /// <param name="port">端口</param>
+        public void StartListen(string ipAddress, int port)
+        {
+            IPAddress localIpAddress = IPAddress.Parse(ipAddress);
+            IPEndPoint localEndPoint = new IPEndPoint(localIpAddress, port);
 
+            listenSocket = new Socket(localIpAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            listenSocket.Bind(localEndPoint);
 
+            listenSocket.Listen(this.socketSetting.Bakclog);
+            StartAccept();
+        }
         /// <summary>
         /// 创建一个saea对象做接收操作
         /// </summary>
@@ -212,6 +233,8 @@ namespace AsyncTcpSever
             if (ConnectedEvent != null)
             {
                 ConnectedEvent(receiveEventArgs.AcceptSocket);
+                string ipAddress = ((IPEndPoint)acceptEventArg.RemoteEndPoint).Address.ToString();
+                this.clients.Add(ipAddress, receiveEventArgs.AcceptSocket);
             }
         }
 
@@ -247,11 +270,11 @@ namespace AsyncTcpSever
                 return;
             }
 
-         
+
             if (receiveEventArgs.BytesTransferred > receiveEventArgs.Count)
             {
                 receiveSendToken.Reset();
-               
+
             }
             if (receiveEventArgs.BytesTransferred == 0)
             {
@@ -259,10 +282,10 @@ namespace AsyncTcpSever
                 CloseClientSocket(receiveEventArgs, true);
                 return;
             }
-          
+
             int remainingBytesToProcess = receiveEventArgs.BytesTransferred;
 
-         
+
             if (receiveSendToken.PrefixByteDoneCount < this.socketSetting.PrefixLength)
             {
                 remainingBytesToProcess = prefixHandler.HandlePrefix(receiveEventArgs, receiveSendToken,
@@ -282,7 +305,8 @@ namespace AsyncTcpSever
             {
                 if (ReceiveEvent != null)
                 {
-                    ReceiveEvent(receiveEventArgs.AcceptSocket,receiveSendToken.Holder.DataMessageReceived);
+                    ReceiveEvent(receiveEventArgs.AcceptSocket, receiveSendToken.Holder.DataMessageReceived);
+
                 }
                 receiveSendToken.Holder.DataMessageReceived = null;
                 receiveSendToken.Reset();
@@ -315,7 +339,23 @@ namespace AsyncTcpSever
 
             StartSend(sendEventArgs);
         }
+        /// <summary>
+        /// 向指定客户端发送请求，ip为空则直接广播给所有客户端
+        /// </summary>
+        /// <param name="strMessage"></param>
+        /// <param name="ip"></param>
+        public void SendData(String strMessage, String ip = "")
+        {
 
+            if (String.IsNullOrEmpty(strMessage))
+            {
+                foreach (var socket in this.clients)
+                {
+                    this.SendData(socket.Value, Encoding.UTF8.GetBytes(strMessage));
+                }
+            }
+            this.SendData(this.clients[ip], Encoding.UTF8.GetBytes(strMessage));
+        }
 
         /// <summary>
         /// 
@@ -421,7 +461,10 @@ namespace AsyncTcpSever
             {
 
             }
+            //用户离开时将其移除
+            this.clients.Remove(((IPEndPoint)e.RemoteEndPoint).Address.ToString());
             e.AcceptSocket.Close();
+
             if (isRec)
             {
                 var receiveSendToken = (e.UserToken as DataHoldingUserToken);
